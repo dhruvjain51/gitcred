@@ -1,50 +1,43 @@
 import requests
 import json
-
-# def getcommits(repo):
-#     r = requests.get(repo)
-#     json_string = (r.json())
-#     length = len(json_string)
-#     # return(json_string)
-#     return length
-#
-#
-#
-#
-# print(getcommits("https://api.github.com/repos/shabad/ImagineCode/commits"))
+from requests.auth import HTTPDigestAuth
 
 
-repository = "https://api.github.com/repos/shabad/gre_words/commits"
+repository = "https://api.github.com/repos/dhruvjain51/gitcred/stats/contributors"
 
-response = []
-page = 1
-next_page = True;
-while next_page:
-    r = requests.get(repository + "?page=" + str(page))
-    response.append(r.json())
-    if(len(r.json())) < 30:
-        next_page = False;
 
-    page = page +1;
 
-# now at this stage, respose is an array with the responses in each single page
+def get_highest_commits(repository):
+    r = requests.get(repository)
+    data = json.loads(r.content)
 
-# print(len(response[]))
-# total = 0;
-# for rs in response:
-#     total = total + len(rs)
+    numCommits = 0
+    login = ""
+    for item in data:
+        if item['total'] > numCommits:
+            numCommits = item['total']
+            login = item['author']['login']
 
-# print(total)
+    return(login, numCommits)
+    # print(login)
 
-committers = {}
-# Assume everything is in first page
-# print(response[0][0]['committer']['login'])
+def get_commits_user(user, repository):
+    r = requests.get(repository)
+    data = json.loads(r.content)
 
-for cur_page in response:
-    for item in cur_page:
-        if item['committer']['login'] not in committers:
-            committers[item['committer']['login']] = 1
-        else:
-            committers[item['committer']['login']] = committers[item['committer']['login']] + 1
+    numCommits = 0
+    login = ""
+    for item in data:
+        if item['author']['login'] == user:
+            numCommits = item['total']
+            login = item['author']['login']
 
-print(committers)
+    return(login, numCommits)
+
+
+# difference +1 to account for win
+def num_commits_to_make(user, repository):
+    return (get_highest_commits(repository)[1] - get_commits_user(user, repository)[1])
+
+
+print(num_commits_to_make('shabad',repository))
