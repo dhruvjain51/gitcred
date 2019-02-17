@@ -3,7 +3,9 @@ import json
 from requests.auth import HTTPDigestAuth
 
 
-repository = "https://api.github.com/repos/dhruvjain51/gitcred/stats/contributors?access_token=e0e227f9e1f5971dd9549d5afc089303fb1ad6a4"
+repository = "https://api.github.com/repos/dhruvjain51/gitcred/stats/contributors"
+
+
 
 def get_highest_commits(repository):
     r = requests.get(repository)
@@ -38,4 +40,4 @@ def num_commits_to_make(user, repository):
     return (get_highest_commits(repository)[1] - get_commits_user(user, repository)[1] +1)
 
 
-print(num_commits_to_make('dhruvjain51',repository))
+print(num_commits_to_make('shabad',repository))
