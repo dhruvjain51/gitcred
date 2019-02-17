@@ -15,14 +15,14 @@ def check_git():
 
 
 def clone_repo():
-    github_user = (input("Please enter your github username:")) # Probably do not need for public repo's
-    github_repo = (input("Please enter your github repo URL:"))
     command = str("curl -u %s https://api.github.com/user" % github_user)
     os.system(command)
     command = str("git clone %s" % github_repo)
     os.system(command)
 
 
+github_user = (input("Please enter your github username:")) # Probably do not need for public repo's
+github_repo = (input("Please enter your github repo URL:"))
 check_git()
 clone_repo()
 
