@@ -37,7 +37,7 @@ def get_commits_user(user, repository):
 
 # difference +1 to account for win
 def num_commits_to_make(user, repository):
-    return (get_highest_commits(repository)[1] - get_commits_user(user, repository)[1] +1)
+    return (get_highest_commits(repository)[1] - get_commits_user(user, repository)[1])
 
 
 print(num_commits_to_make('shabad',repository))
